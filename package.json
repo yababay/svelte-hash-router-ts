@@ -1,0 +1,21 @@
+{
+  "name": "@yababay67/svelte-hash-router-ts",
+  "version": "1.0.8",
+  "description": "Hash router for Svelte projects",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Michael Belyakov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "gh:yababay/svelte-hash-router-ts"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "svelte": "^3.51.0"
+  }
+}
