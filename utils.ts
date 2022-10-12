@@ -21,43 +21,51 @@ function delayedAction (delay: number, func: CallableFunction = ()=> true): Prom
     return new Promise((yep) => setTimeout(() => yep(func()), delay))
 }
 
-function getSignificantSections() { 
-    return Array.from(document.querySelectorAll('#significant > section'))
+function getSignificantSections(selector) { 
+    return Array.from(document.querySelectorAll(selector))
 }
 
-function getSignificantHashes() { 
-    return getSignificantSections().map(section => `#${section.getAttribute('id') || section.getAttribute("data-proxy")}`)
+function getSignificantHashes(selector) { 
+    return getSignificantSections(selector).map(section => `#${section.getAttribute('id') || section.getAttribute("data-proxy")}`)
 }
 
-async function showSection(target: string | Element, proxies: object){
-    target = assureElement(target)
+async function showSection(target: string | Element, proxies: object, selector: string, props: object = {}){
+    target = assureElement(target, selector)
+    const force = target.getAttribute('data-force')
+    if(force && force === 'true'){
+        target.removeAttribute('id')
+        target.innerHTML = ''
+    }
     let id = target.getAttribute('id')
     if(!id){
         id = target.getAttribute('data-proxy')
         if(!id) throw Error('В этом наборе недопустимы секции без идентификатора или прокси.')
-        const constructor = Reflect.get(proxies, id)
-        if(!constructor) throw Error(`Не найден конструктов для секции с id=${id}`)
+        const proxy = Reflect.get(proxies, id)
+        if(!proxy) throw Error(`Не найден конструктов для секции с id=${id}`)
+        const {constructor} = proxy
         target.setAttribute('id', id)
-        Reflect.set(proxies, id, Reflect.construct(constructor, [{target}]))
+        const instance = Reflect.construct(constructor, [{target, props}]) //Reflect.set(proxies, id, Reflect.construct(constructor, [{target, props}]))
+        Reflect.set(proxies, id, {constructor, instance})
     }
     const component = Reflect.get(proxies, id)
     if(component){
-        const loader = Reflect.get(component, 'loader')
+        const {instance} = component
+        const loader = Reflect.get(instance, 'loader')
         if(loader){
             await loadContent(loader)
         }
     }
-    hideSections()
+    hideSections(selector)
     showElement(target)
 }
 
-function idFromHash(hash: string, defaultId: string = 'intro'): string{
-    if(!getSignificantHashes().includes(hash)) return defaultId
+function idFromHash(hash: string, selector, defaultId: string = 'intro'): string{
+    if(!getSignificantHashes(selector).includes(hash)) return defaultId
     return hash.substring(1)
 }
 
-function hideSections(){
-    getSignificantSections().forEach(hideElement)
+function hideSections(selector){
+    getSignificantSections(selector).forEach(hideElement)
 }
 
 function hideElement(element: Element){
@@ -68,11 +76,11 @@ function showElement(element: Element){
     element.classList.remove('d-none')
 }
   
-function assureElement(element: string | Element): Element{
+function assureElement(element: string | Element, selector): Element{
     if(element instanceof Element) return element
-    let target = getSignificantSections().find(section => section.getAttribute('id') === element || section.getAttribute('data-proxy') === element)
+    let target = getSignificantSections(selector).find(section => section.getAttribute('id') === element || section.getAttribute('data-proxy') === element)
     if(!target )  throw 'Не удалось найти секцию по идентификатору.'
     return  target
 }
 
-export { idFromHash, showSection, hideElement, showElement, assureElement, delayedAction }
+export { idFromHash, showSection, hideElement, showElement, assureElement, delayedAction, showLoader, hideLoader }

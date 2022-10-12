@@ -1,6 +1,6 @@
 {
   "name": "@yababay67/svelte-hash-router-ts",
-  "version": "1.0.8",
+  "version": "1.1.7",
   "description": "Hash router for Svelte projects",
   "main": "index.ts",
   "scripts": {
