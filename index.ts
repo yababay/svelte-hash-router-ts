@@ -1,5 +1,5 @@
 import { derived, writable } from "svelte/store"
-import {  idFromHash, showSection, hideElement, showElement, assureElement, showLoader, hideLoader  } from './utils'
+import Router from './router'
 
 const hash = writable('')
 const hashWithParams = derived(hash, $hash => {
@@ -11,8 +11,8 @@ const hashWithParams = derived(hash, $hash => {
 
 let lastURL: string 
 
-function setupRouter(proxies: object, selector: string) {
-    Object.keys(proxies).forEach(key => proxies[key] = {constructor: proxies[key]})
+async function setupRouter(proxies: object, selector: string, logoTimeout = 4000, defaultId = 'intro') {
+    const router = new Router(proxies, selector, defaultId)
     window.addEventListener('hashchange', function (event) {
         Object.defineProperty(event, 'oldURL', {
           enumerable: true,
@@ -27,12 +27,24 @@ function setupRouter(proxies: object, selector: string) {
         lastURL = document.URL
         hash.set(window.location.hash)
     })
-    hashWithParams.subscribe($hash => {
-      if(typeof $hash !== 'string') return
-      const id = idFromHash($hash, selector)
-      showSection(id, proxies, selector)
+    hashWithParams.subscribe(async $hash => {
+      Router.hideLoader()
+      if(typeof $hash === 'string'){
+        const id = router.idFromHash($hash)
+        await router.showSection(id)
+        return
+      }
+      const {hash, props} = $hash
+      const id = router.idFromHash(hash)
+      await router.showSection(id, props)
     })
+    if(logoTimeout){
+      Router.showLoader()
+      await Router.delayedAction(logoTimeout)
+      Router.hideLoader()
+    }
+    hash.set(window.location.hash)
+    return router
 }
 
-export { hash, hashWithParams, setupRouter, idFromHash, showSection, hideElement, showElement, assureElement, showLoader, hideLoader }
-
+export { hash, hashWithParams, setupRouter, Router }
