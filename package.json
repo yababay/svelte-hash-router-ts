@@ -1,5 +1,6 @@
 {
   "name": "@yababay67/svelte-hash-router-ts",
+  "version": "3.0.1",
   "description": "Hash router for Svelte projects (singleton version)",
   "main": "src/lib/router.ts",
   "scripts": {
@@ -11,7 +12,6 @@
     "type": "git",
     "url": "gh:yababay/svelte-hash-router-ts"
   },
-  "version": "3.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
