@@ -1,7 +1,11 @@
-tslint.json
-.prettierrc
+src/main.ts
+src/vite-env.d.ts
+src/lib/HelloWorld.svelte
 index.html
 public
 svelte.config.js
+vite.config.ts
+tslint.json
 .vscode
+.prettierrc
 
