@@ -1,8 +1,7 @@
 {
   "name": "@yababay67/svelte-hash-router-ts",
-  "version": "2.0.1",
-  "description": "Hash router for Svelte projects (OOP version)",
-  "main": "index.ts",
+  "description": "Hash router for Svelte projects (singleton version)",
+  "main": "src/lib/router.ts",
   "scripts": {
     "build": "tsc"
   },
@@ -12,10 +11,22 @@
     "type": "git",
     "url": "gh:yababay/svelte-hash-router-ts"
   },
-  "devDependencies": {
-    "typescript": "^4.8.4"
+  "version": "3.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
   },
-  "dependencies": {
-    "svelte": "^3.51.0"
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.0.2",
+    "@tsconfig/svelte": "^3.0.0",
+    "svelte": "^3.49.0",
+    "svelte-check": "^2.8.1",
+    "svelte-preprocess": "^4.10.7",
+    "tslib": "^2.4.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.1.0"
   }
 }

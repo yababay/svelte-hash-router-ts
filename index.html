@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <script type="module" src="/src/main.ts" defer></script>
+    <title>Hash router for svelte</title>
+  </head>
+  <body>
+    <p><a href="#intro">Intro</a></p>
+    <p><a href="#settings">Settings</a></p>
+    <p><a href="#statistics">Statistics</a></p>
+    <p><a href="#game?hello=Hello&world=World">Hello, World!</a></p>
+    <p><a href="#game?hello=Salut&world=le+Monde">Salut, le Monde!</a></p>
+    <p><a href="#game?hello=Hallo&world=Welt">Hallo, Welt!</a></p>
+    <main>
+      <section id="intro" class="d-none">intro</section>
+      <section id="settings" class="d-none">settings</section>
+      <section id="statistics" class="d-none">statistics</section>
+      <section id="game" class="d-none">game</section>
+    </main>
+  </body>
+</html>
+
