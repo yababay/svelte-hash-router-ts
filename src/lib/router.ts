@@ -6,6 +6,7 @@ let lastURL: string
 
 function idFromHash(hash: string, intro: string): string{
   let target = hash ? hash.trim() : ''
+  if(!target) target = window.location.hash
   if(target.startsWith('#')) target = target.substring(1)
   if(hash.includes('?')) target = target.substring(0, target.indexOf('?'))
   if(!significantIds.includes(target)) throw Error(`Не найдена секция с id=${target}`)

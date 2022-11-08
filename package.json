@@ -1,11 +1,9 @@
 {
   "name": "@yababay67/svelte-hash-router-ts",
-  "version": "3.0.1",
+  "version": "3.0.3",
   "description": "Hash router for Svelte projects (singleton version)",
-  "main": "src/lib/router.ts",
-  "scripts": {
-    "build": "tsc"
-  },
+  "main": "index.ts",
+
   "author": "Michael Belyakov",
   "license": "MIT",
   "repository": {
@@ -17,8 +15,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
-  },
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "ts": "tsc"
+    },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.2",
     "@tsconfig/svelte": "^3.0.0",
